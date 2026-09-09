@@ -43,19 +43,18 @@ window.ArenaRenderer = {
           cell.classList.add("peak", "cell-sky");
           if (x === 4) {
             cell.classList.add("peak-summit");
-            const trophyEl = document.createElement("img");
-            trophyEl.className = "cell-flag summit-trophy-img";
-            trophyEl.src = "assets/sprites/trophy_gold.png";
-            trophyEl.alt = "Trophy";
+            const trophyEl = document.createElement("span");
+            trophyEl.className = "cell-flag summit-trophy";
+            trophyEl.textContent = "🏆";
+            trophyEl.title = "Summit Peak";
             cell.appendChild(trophyEl);
           } else {
             const flagCols = [0, 1, 2, 3, 5, 6, 7, 8];
             const slotIdx = flagCols.indexOf(x);
             cell.dataset.flagSlot = slotIdx;
-            const flagEl = document.createElement("img");
-            flagEl.className = "cell-flag neutral-flag-img";
-            flagEl.src = "assets/sprites/flag_white.png";
-            flagEl.alt = "Flag";
+            const flagEl = document.createElement("span");
+            flagEl.className = "cell-flag neutral-flag";
+            flagEl.innerHTML = window.Sprites?.getFlag ? window.Sprites.getFlag(0) : "🏳️";
             cell.appendChild(flagEl);
           }
         } 
@@ -106,17 +105,20 @@ window.ArenaRenderer = {
         if (flagVal === 1) {
           cell.classList.add("flag-p1");
           if (flagEl) {
-            flagEl.className = "cell-flag blue-flag-img";
+            flagEl.className = "cell-flag blue-flag";
+            flagEl.innerHTML = window.Sprites?.getFlag ? window.Sprites.getFlag(1) : "🚩";
           }
         } else if (flagVal === 2) {
           cell.classList.add("flag-p2");
           if (flagEl) {
-            flagEl.className = "cell-flag red-flag-img";
+            flagEl.className = "cell-flag red-flag";
+            flagEl.innerHTML = window.Sprites?.getFlag ? window.Sprites.getFlag(2) : "🚩";
           }
         } else {
           cell.classList.add("flag-neutral");
           if (flagEl) {
-            flagEl.className = "cell-flag neutral-flag-img";
+            flagEl.className = "cell-flag neutral-flag";
+            flagEl.innerHTML = window.Sprites?.getFlag ? window.Sprites.getFlag(0) : "🏳️";
           }
         }
       });
@@ -129,7 +131,7 @@ window.ArenaRenderer = {
       flags.forEach((f, idx) => {
         const item = document.createElement("span");
         item.className = "track-flag " + (f === 1 ? "flag-blue" : f === 2 ? "flag-red" : "flag-neutral");
-        item.textContent = f === 0 ? "🏳️" : "🚩";
+        item.innerHTML = window.Sprites?.getFlag ? window.Sprites.getFlag(f) : (f === 0 ? "🏳️" : "🚩");
         item.title = `Flag ${idx + 1}: ` + (f === 1 ? "Blue Team (P1)" : f === 2 ? "Red Team (P2)" : "Neutral");
         trackEl.appendChild(item);
       });

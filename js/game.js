@@ -512,35 +512,44 @@ window.GameSystem = {
   },
 
   /**
-   * Claim one of the 8 summit flags when a hiker reaches row 0
+   * Claim or capture one of the 8 summit flags when a hiker reaches row 0
    */
   claimSummitFlag(player, hiker, isRemote = false, explicitFlagIdx = null) {
     if (window.GameState.isGameOver) return;
 
     const flags = window.GameState.flags;
+    const flagCols = [0, 1, 2, 3, 5, 6, 7, 8];
     let targetIdx = explicitFlagIdx;
 
     if (targetIdx === null || targetIdx === undefined || targetIdx < 0 || targetIdx >= 8) {
-      // Prioritize the specific lane's flag if hiker reached that column on row 0
-      const flagCols = [0, 1, 2, 3, 5, 6, 7, 8];
       const hikerCol = hiker ? hiker.x : -1;
       const colSlot = flagCols.indexOf(hikerCol);
 
-      if (colSlot !== -1 && flags[colSlot] === 0) {
-        targetIdx = colSlot;
+      if (colSlot !== -1) {
+        // Hiker reached a lane with a flag (columns 0, 1, 2, 3, 5, 6, 7, 8)
+        if (flags[colSlot] === 0) {
+          // Neutral lane flag -> claim directly
+          targetIdx = colSlot;
+        } else if (flags[colSlot] !== player) {
+          // Lane controlled by opponent -> CAPTURE / STEAL this lane's flag!
+          targetIdx = colSlot;
+        } else {
+          // Lane already owned by this player -> climber secures summit and claims nearest available flag
+          targetIdx = this.findNearestFlag(hikerCol, flags, player);
+        }
+      } else if (hikerCol === 4) {
+        // Hiker reached the central Summit Peak Trophy (Column 4)
+        // Claims the nearest neutral flag (or captures nearest opponent flag)
+        targetIdx = this.findNearestFlag(4, flags, player);
       } else {
-        // Otherwise claim next available neutral flag
-        targetIdx = flags.findIndex(f => f === 0);
+        // Fallback
+        targetIdx = this.findNearestFlag(4, flags, player);
       }
     }
 
-    if (targetIdx === -1 || flags[targetIdx] !== 0) {
-      // If preferred slot is already taken, claim first remaining neutral flag
-      targetIdx = flags.findIndex(f => f === 0);
-    }
+    if (targetIdx === -1 || targetIdx === null || targetIdx === undefined) return;
 
-    if (targetIdx === -1) return; // All 8 flags already claimed
-
+    const previousOwner = flags[targetIdx];
     flags[targetIdx] = player;
 
     // Broadcast to peer if online
@@ -560,16 +569,48 @@ window.GameSystem = {
     const p2Count = flags.filter(f => f === 2).length;
     const totalClaimed = p1Count + p2Count;
 
-    this.updateStatus(`🚩 ${player === 1 ? "Blue Team (P1)" : "Red Team (P2)"} claimed Flag ${totalClaimed}/8! (Blue: ${p1Count} - Red: ${p2Count})`);
+    const teamName = player === 1 ? "Blue Team (P1)" : "Red Team (P2)";
+    const colName = flagCols[targetIdx];
+    if (previousOwner !== 0 && previousOwner !== player) {
+      this.updateStatus(`🚩 ${teamName} CAPTURED Lane ${colName} Flag from opponent! (Blue: ${p1Count} - Red: ${p2Count})`);
+    } else {
+      this.updateStatus(`🚩 ${teamName} claimed Lane ${colName} Flag (${totalClaimed}/8)! (Blue: ${p1Count} - Red: ${p2Count})`);
+    }
 
-    // Match ends ONLY after all 8 flags are complete
-    if (totalClaimed >= 8) {
+    // Victory check: First to majority (5 of 8 flags), or all 8 flags claimed
+    if (p1Count >= 5) {
+      this.triggerSummitCompletion(1, p1Count, p2Count);
+    } else if (p2Count >= 5) {
+      this.triggerSummitCompletion(2, p1Count, p2Count);
+    } else if (totalClaimed >= 8) {
       let winner = 0; // 0 = draw
       if (p1Count > p2Count) winner = 1;
       else if (p2Count > p1Count) winner = 2;
 
       this.triggerSummitCompletion(winner, p1Count, p2Count);
     }
+  },
+
+  /**
+   * Helper: Find nearest flag slot to a given column
+   * Priority: 1. Nearest neutral flag (flag === 0)
+   *           2. Nearest opponent flag (flag !== player)
+   */
+  findNearestFlag(fromCol, flags, player) {
+    const flagCols = [0, 1, 2, 3, 5, 6, 7, 8];
+    const sortedSlots = flagCols
+      .map((col, idx) => ({ idx, dist: Math.abs(col - fromCol) }))
+      .sort((a, b) => a.dist - b.dist);
+
+    // 1. Look for nearest neutral flag
+    const neutralSlot = sortedSlots.find(s => flags[s.idx] === 0);
+    if (neutralSlot) return neutralSlot.idx;
+
+    // 2. Look for nearest opponent flag
+    const opponentSlot = sortedSlots.find(s => flags[s.idx] !== player && flags[s.idx] !== 0);
+    if (opponentSlot) return opponentSlot.idx;
+
+    return -1;
   },
 
   /**
