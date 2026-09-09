@@ -38,9 +38,9 @@ window.ArenaRenderer = {
         cell.dataset.idx = cellIdx;
         cell.title = `Cell ${cellIdx} (x:${x}, y:${y})`;
 
-        // Peak row (Top: Row 0) - Green grass stone blocks
+        // Peak row (Top: Row 0) - Empty sky with summit flags & trophy
         if (y === arena.peakRow) {
-          cell.classList.add("peak", "block-top-grass");
+          cell.classList.add("peak", "cell-sky");
           if (x === 4) {
             cell.classList.add("peak-summit");
             const trophyEl = document.createElement("span");
@@ -57,12 +57,16 @@ window.ArenaRenderer = {
             cell.appendChild(flagEl);
           }
         } 
+        // Row 1: Mountain Top Grass Blocks (sitting right below the flags)
+        else if (y === 1) {
+          cell.classList.add("mountain-top", "block-top-grass");
+        }
         // Bottom Base Camp Soil Blocks (Rows 12-14)
         else if (arena.deployRows.includes(y)) {
           const soilVar = ((x + y * 2) % 2) + 1;
           cell.classList.add("deployarea", `block-soil-${soilVar}`);
         } 
-        // Middle Mountain Stone Blocks (Rows 1-11) - Mixed stone block variations
+        // Middle Mountain Stone Blocks (Rows 2-11) - Mixed stone block variations
         else {
           const stoneVar = Math.floor(Math.random() * 4) + 1;
           cell.classList.add("neutral", `block-stone-${stoneVar}`);
