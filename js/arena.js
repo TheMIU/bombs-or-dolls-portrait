@@ -38,11 +38,6 @@ window.ArenaRenderer = {
         cell.dataset.idx = cellIdx;
         cell.title = `Cell ${cellIdx} (x:${x}, y:${y})`;
 
-        const numEl = document.createElement("span");
-        numEl.className = "cell-num";
-        numEl.textContent = cellIdx;
-        cell.appendChild(numEl);
-
         // Peak row (Top: Row 0)
         if (y === arena.peakRow) {
           cell.classList.add("peak");

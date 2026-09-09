@@ -38,136 +38,144 @@ html, body {
   overflow: hidden;
 }
 
-/* ================= Top HUD Elements ================= */
+/* ================= Top HUD: Minimal Header ================= */
 .top-hud {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
   width: 100%;
   z-index: 10;
+  padding: 1px 0;
 }
 
-.top-bar {
+.top-bar-minimal {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 2px;
-}
-
-.game-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #0f172a;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.mountain-icon {
-  font-size: 16px;
-}
-
-.top-bar-right {
-  display: flex;
-  align-items: center;
   gap: 6px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 3px 6px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
-.game-timer {
-  font-size: 11px;
-  font-weight: 700;
-  color: #475569;
-  background: #ffffff;
-  padding: 2px 7px;
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.game-title-compact {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.summit-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #f1f5f9;
   border-radius: 999px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #1e293b;
   border: 1px solid #e2e8f0;
 }
 
-.btn-icon-sm {
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 12px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.12s ease;
-  line-height: 1.2;
+.score-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.p1-dot { background: #0284c7; box-shadow: 0 0 4px #38bdf8; }
+.p2-dot { background: #e11d48; box-shadow: 0 0 4px #f43f5e; }
+
+.score-divider {
+  color: #94a3b8;
+  font-weight: 700;
 }
 
-.btn-icon-sm:hover {
-  background: #f1f5f9;
-  border-color: #94a3b8;
-  transform: translateY(-1px);
+/* Minimal Opponent HUD (Center of Top Bar) */
+.opponent-hud-minimal {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  max-width: 140px;
 }
 
 .player-badge {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 2px 6px;
+  padding: 1px 5px;
   border-radius: 999px;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
 }
 .p1-badge { background: #e0f2fe; color: #0369a1; }
 .p2-badge { background: #ffe4e6; color: #be123c; }
 
-/* Opponent HUD (Top) */
-.opponent-hud {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 3px 8px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-}
-
-.opp-profile {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.opp-role-label {
-  font-size: 9.5px;
-  font-weight: 700;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-
-.opp-mana-container {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex: 1;
-  max-width: 170px;
-  margin-left: 8px;
-}
-
-.mana-icon-sm {
-  font-size: 11px;
-}
-
 .opp-mana-bar {
   flex: 1;
-  height: 8px;
+  height: 7px;
   background: #e2e8f0;
   border-radius: 999px;
   overflow: hidden;
 }
 
 .opp-mana-num {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 800;
-  color: #475569;
-  min-width: 42px;
+  color: #64748b;
+  min-width: 32px;
   text-align: right;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.game-timer {
+  font-size: 10px;
+  font-weight: 700;
+  color: #475569;
+  background: #f8fafc;
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+.net-status-pill {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+}
+
+.btn-icon-sm {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  padding: 2px 5px;
+  font-size: 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+  line-height: 1;
+}
+
+.btn-icon-sm:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
 }
 
 /* ================= Generic Mana & Bars ================= */
@@ -483,92 +491,9 @@ html, body {
   justify-content: center;
 }
 
-/* Tiny testing cell number */
+/* Hide debug cell numbers for clean visual aesthetic */
 .cell-num {
-  position: absolute;
-  top: 1px;
-  left: 2px;
-  font-size: 7.5px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-weight: 700;
-  color: rgba(107, 114, 128, 0.45);
-  pointer-events: none;
-  user-select: none;
-  line-height: 1;
-  z-index: 2;
-}
-
-.cell.peak .cell-num {
-  color: rgba(161, 98, 7, 0.6);
-}
-
-.cell.deployarea .cell-num {
-  color: rgba(99, 102, 241, 0.5);
-}
-
-/* ================= 8 Summit Flags Progress Bar ================= */
-.summit-flags-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 440px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 999px;
-  padding: 3px 14px;
-  margin: 1px 0 6px 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-}
-
-.flag-team-score {
-  font-size: 11px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.p1-score { color: #0284c7; }
-.p2-score { color: #e11d48; }
-
-.team-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-}
-.p1-dot { background: #0284c7; box-shadow: 0 0 5px #38bdf8; }
-.p2-dot { background: #e11d48; box-shadow: 0 0 5px #f43f5e; }
-
-.flags-track {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.track-flag {
-  font-size: 14px;
-  transition: all 0.25s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: default;
-}
-
-.track-flag.flag-neutral {
-  opacity: 0.4;
-  filter: grayscale(1);
-}
-
-.track-flag.flag-blue {
-  filter: drop-shadow(0 0 4px #0284c7) hue-rotate(185deg);
-  transform: scale(1.2);
-}
-
-.track-flag.flag-red {
-  filter: drop-shadow(0 0 4px #e11d48);
-  transform: scale(1.2);
+  display: none !important;
 }
 
 /* Zone colors & Peak Flags */
@@ -776,25 +701,59 @@ html, body {
   100% { width: 120px; height: 120px; opacity: 0; background: rgba(239, 68, 68, 0); }
 }
 
-/* Bottom Controls & Status */
-.status {
-  font-size: 13px;
-  font-weight: 600;
-  text-align: center;
-  color: #4b5563;
-  min-height: 32px;
+/* Bottom Arena Footer & Minimal Controls */
+.arena-footer-bar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 2px 10px;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2px 2px;
+  gap: 6px;
+  min-height: 26px;
 }
 
-.controls-row {
+.status-compact {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #475569;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.controls-compact {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.btn-sm {
+  padding: 3px 8px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  border-radius: 5px !important;
+  line-height: 1.2;
+}
+
+.btn-start {
+  background: #10b981;
+  color: #ffffff;
+  border-color: #059669;
+}
+.btn-start:hover {
+  background: #059669;
+  color: #ffffff;
+}
+
+.btn-stop {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+.btn-stop:hover {
+  background: #dc2626;
+  color: #ffffff;
 }
 
 .btn {

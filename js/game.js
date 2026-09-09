@@ -253,10 +253,10 @@ window.GameSystem = {
 
         let statBadge = "";
         if (card.kind === "hiker") {
-          statBadge = `<span class="card-stat card-stat-hp" title="Health: ${card.hp} HP">❤️ ${card.hp} HP</span>`;
+          statBadge = `<span class="card-stat card-stat-hp" title="Health: ${card.hp} HP">❤️ ${card.hp}</span>`;
         } else if (card.kind === "bomb") {
           if (typeof card.damage === "number" && card.damage > 0) {
-            statBadge = `<span class="card-stat card-stat-dmg" title="Blast Damage: ${card.damage} DMG">💥 ${card.damage} DMG</span>`;
+            statBadge = `<span class="card-stat card-stat-dmg" title="Blast Damage: ${card.damage} DMG">💥 ${card.damage}</span>`;
           } else if (card.stunDurationSec) {
             statBadge = `<span class="card-stat card-stat-stun" title="Stun: ${card.stunDurationSec}s">⚡ ${card.stunDurationSec}s</span>`;
           }
@@ -269,9 +269,6 @@ window.GameSystem = {
           </div>
           <div class="card-icon">${spriteSvg}</div>
           <div class="card-name">${card.name}</div>
-          <div class="card-footer">
-            <span class="card-role">${card.role}</span>
-          </div>
         `;
 
         cardEl.addEventListener("click", () => {
@@ -807,10 +804,10 @@ window.PortraitUI = {
     const oppBadge = document.getElementById("opp-badge");
     if (oppBadge) {
       if (isP1) {
-        oppBadge.textContent = "Red Team (P2)";
+        oppBadge.textContent = "P2";
         oppBadge.className = "player-badge p2-badge";
       } else {
-        oppBadge.textContent = "Blue Team (P1)";
+        oppBadge.textContent = "P1";
         oppBadge.className = "player-badge p1-badge";
       }
     }

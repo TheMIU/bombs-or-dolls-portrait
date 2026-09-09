@@ -9,48 +9,36 @@
 <body>
 
 <div id="game" class="portrait-layout">
-  <!-- Top HUD: Header Bar, Summit Flags, Opponent Mana Bar -->
+  <!-- Top HUD: Minimal Single-Row Header with Summit Score, Opponent Mana, Timer & Actions -->
   <header class="top-hud">
-    <div class="top-bar">
-      <div class="game-title">
-        <span class="mountain-icon">⛰️</span>
-        <span class="title-text">Bombs or Dolls</span>
+    <div class="top-bar-minimal">
+      <!-- Left: Mountain Icon & Flag Score Badge -->
+      <div class="top-bar-left">
+        <span class="game-title-compact">⛰️</span>
+        <div class="summit-score-badge" title="Summit Flags captured: Blue vs Red">
+          <span class="score-dot p1-dot"></span>
+          <b id="p1-flags-count">0</b>
+          <span class="score-divider">:</span>
+          <b id="p2-flags-count">0</b>
+          <span class="score-dot p2-dot"></span>
+        </div>
       </div>
-      <div class="top-bar-right">
-        <div id="net-status-pill" class="net-status-pill offline">👥 Local</div>
-        <div id="game-timer" class="game-timer">⏱️ 00:00</div>
-        <button id="btn-settings" class="btn btn-icon-sm" title="Settings & Balance">⚙️</button>
-        <button id="btn-online" class="btn btn-icon-sm btn-online" title="Play Online">🌐</button>
-      </div>
-    </div>
 
-    <!-- 8 Summit Flags Progress Bar -->
-    <div id="summit-flags-bar" class="summit-flags-bar">
-      <div class="flag-team-score p1-score">
-        <span class="team-dot p1-dot"></span>
-        <span>Blue: <b id="p1-flags-count">0</b></span>
-      </div>
-      <div id="flags-track" class="flags-track" title="8 Summit Flags - Conquered when climbers reach the top">
-        <!-- 8 flags rendered dynamically -->
-      </div>
-      <div class="flag-team-score p2-score">
-        <span>Red: <b id="p2-flags-count">0</b></span>
-        <span class="team-dot p2-dot"></span>
-      </div>
-    </div>
-
-    <!-- Opponent HUD (Top) -->
-    <div id="opponent-hud" class="opponent-hud">
-      <div class="opp-profile">
-        <span class="opp-role-label">Opponent:</span>
-        <span id="opp-badge" class="player-badge p2-badge">Red Team (P2)</span>
-      </div>
-      <div class="opp-mana-container">
-        <span class="mana-icon-sm">⚡</span>
+      <!-- Center: Opponent Mana Bar -->
+      <div id="opponent-hud" class="opponent-hud-minimal">
+        <span id="opp-badge" class="player-badge p2-badge">P2</span>
         <div class="bar opp-mana-bar">
           <div id="opp-mana-fill" class="fill p2fill" style="width: 100%;"></div>
         </div>
-        <div class="opp-mana-num"><span id="opp-mana-val">10.0</span>/10</div>
+        <div class="opp-mana-num"><span id="opp-mana-val">10.0</span>⚡</div>
+      </div>
+
+      <!-- Right: Timer, Net Status & Actions -->
+      <div class="top-bar-right">
+        <div id="game-timer" class="game-timer">00:00</div>
+        <div id="net-status-pill" class="net-status-pill offline" title="Network status">👥 Local</div>
+        <button id="btn-settings" class="btn-icon-sm" title="Settings">⚙️</button>
+        <button id="btn-online" class="btn-icon-sm btn-online" title="Play Online">🌐</button>
       </div>
     </div>
   </header>
@@ -64,14 +52,14 @@
       </div>
     </div>
 
-    <div id="status" class="status">Loading battle arena...</div>
-
-    <div class="controls-row">
-      <button id="btn-start" class="btn btn-start">▶ Start</button>
-      <button id="btn-stop" class="btn btn-stop hidden">⏹ Stop</button>
-      <button id="btn-reset" class="btn">🔄 Reset</button>
-      <button id="btn-pause" class="btn hidden">⏸ Pause</button>
-      <button id="btn-ai" class="btn btn-ai" title="Toggle AI Bot if testing solo">🤖 Bot: OFF</button>
+    <!-- Minimal Arena Footer: Status line + Start/Stop/Reset buttons -->
+    <div class="arena-footer-bar">
+      <div id="status" class="status-compact">Tap Start to begin match</div>
+      <div class="controls-compact">
+        <button id="btn-start" class="btn btn-sm btn-start">▶ Start</button>
+        <button id="btn-stop" class="btn btn-sm btn-stop hidden">⏹ Stop</button>
+        <button id="btn-reset" class="btn btn-sm" title="Reset match">🔄</button>
+      </div>
     </div>
   </main>
 
@@ -102,6 +90,7 @@
       <div id="m1"></div>
       <span id="m2t">10.0</span>
       <div id="m2"></div>
+      <div id="flags-track"></div>
     </div>
 
     <!-- The Bottom Cards Deck: Only one player's cards active at a time -->
