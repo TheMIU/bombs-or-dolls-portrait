@@ -43,17 +43,19 @@ window.ArenaRenderer = {
           cell.classList.add("peak", "cell-sky");
           if (x === 4) {
             cell.classList.add("peak-summit");
-            const trophyEl = document.createElement("span");
-            trophyEl.className = "cell-flag summit-trophy";
-            trophyEl.textContent = "🏆";
+            const trophyEl = document.createElement("img");
+            trophyEl.className = "cell-flag summit-trophy-img";
+            trophyEl.src = "assets/sprites/trophy_gold.png";
+            trophyEl.alt = "Trophy";
             cell.appendChild(trophyEl);
           } else {
             const flagCols = [0, 1, 2, 3, 5, 6, 7, 8];
             const slotIdx = flagCols.indexOf(x);
             cell.dataset.flagSlot = slotIdx;
-            const flagEl = document.createElement("span");
-            flagEl.className = "cell-flag neutral-flag";
-            flagEl.textContent = "🏳️";
+            const flagEl = document.createElement("img");
+            flagEl.className = "cell-flag neutral-flag-img";
+            flagEl.src = "assets/sprites/flag_white.png";
+            flagEl.alt = "Flag";
             cell.appendChild(flagEl);
           }
         } 
@@ -104,20 +106,17 @@ window.ArenaRenderer = {
         if (flagVal === 1) {
           cell.classList.add("flag-p1");
           if (flagEl) {
-            flagEl.textContent = "🚩";
-            flagEl.className = "cell-flag blue-flag";
+            flagEl.className = "cell-flag blue-flag-img";
           }
         } else if (flagVal === 2) {
           cell.classList.add("flag-p2");
           if (flagEl) {
-            flagEl.textContent = "🚩";
-            flagEl.className = "cell-flag red-flag";
+            flagEl.className = "cell-flag red-flag-img";
           }
         } else {
           cell.classList.add("flag-neutral");
           if (flagEl) {
-            flagEl.textContent = "🏳️";
-            flagEl.className = "cell-flag neutral-flag";
+            flagEl.className = "cell-flag neutral-flag-img";
           }
         }
       });
