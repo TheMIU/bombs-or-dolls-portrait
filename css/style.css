@@ -14,7 +14,10 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: #0f172a; /* Sleek dark frame for portrait app */
+  background-color: #3b82f6;
+  background-image: url('../assets/bg_sky.png');
+  background-size: cover;
+  background-position: center;
   color: #1a1a1a;
   user-select: none;
   display: flex;
@@ -31,9 +34,12 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #f8fafc;
+  background-color: #5bb9f9;
+  background-image: url('../assets/bg_sky.png');
+  background-size: cover;
+  background-position: center;
   padding: 6px 8px 6px 8px;
-  box-shadow: 0 0 35px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.35);
   position: relative;
   overflow: hidden;
 }
@@ -465,10 +471,10 @@ html, body {
   aspect-ratio: 9 / 15;
   max-width: 100%;
   position: relative;
-  background: linear-gradient(180deg, #eff6ff 0%, #ffffff 50%, #fff1f2 100%);
-  border: 2px solid #1f2937;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background: transparent;
+  border: 3px solid #1c1917;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   overflow: hidden;
   touch-action: manipulation;
 }
@@ -482,13 +488,16 @@ html, body {
 }
 
 .cell {
-  border: 1px solid rgba(156, 163, 175, 0.35);
+  border: 1px solid rgba(28, 25, 23, 0.45);
   position: relative;
   cursor: pointer;
-  transition: background-color 0.12s, filter 0.12s;
+  transition: filter 0.12s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Hide debug cell numbers for clean visual aesthetic */
@@ -496,10 +505,33 @@ html, body {
   display: none !important;
 }
 
-/* Zone colors & Peak Flags */
-.cell.peak {
-  background: linear-gradient(180deg, #fef08a 0%, #fde047 100%) !important;
-  border-bottom: 2px solid #ca8a04;
+/* ================= 128x128 Block Image Classes ================= */
+.block-top-grass {
+  background-image: url('../assets/blocks/block_top_grass.png');
+}
+
+.block-stone-1 {
+  background-image: url('../assets/blocks/block_stone_1.png');
+}
+
+.block-stone-2 {
+  background-image: url('../assets/blocks/block_stone_2.png');
+}
+
+.block-stone-3 {
+  background-image: url('../assets/blocks/block_stone_3.png');
+}
+
+.block-stone-4 {
+  background-image: url('../assets/blocks/block_stone_4.png');
+}
+
+.block-soil-1 {
+  background-image: url('../assets/blocks/block_soil_1.png');
+}
+
+.block-soil-2 {
+  background-image: url('../assets/blocks/block_soil_2.png');
 }
 
 .cell-flag {
@@ -512,44 +544,51 @@ html, body {
 }
 
 .cell-flag.neutral-flag {
-  opacity: 0.5;
-  filter: grayscale(1);
+  opacity: 0.75;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
 }
 
 .cell.flag-p1 {
-  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%) !important;
-  border-bottom: 2px solid #0284c7 !important;
+  outline: 2.5px solid #0284c7 !important;
+  outline-offset: -2.5px;
+}
+
+.cell.flag-p1::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 132, 199, 0.25);
+  pointer-events: none;
 }
 
 .cell.flag-p1 .cell-flag {
-  filter: drop-shadow(0 0 4px #0284c7) hue-rotate(185deg);
+  filter: drop-shadow(0 0 5px #0284c7) hue-rotate(185deg);
   opacity: 1;
   transform: scale(1.18);
 }
 
 .cell.flag-p2 {
-  background: linear-gradient(180deg, #ffe4e6 0%, #fecdd3 100%) !important;
-  border-bottom: 2px solid #e11d48 !important;
+  outline: 2.5px solid #e11d48 !important;
+  outline-offset: -2.5px;
+}
+
+.cell.flag-p2::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(225, 29, 72, 0.25);
+  pointer-events: none;
 }
 
 .cell.flag-p2 .cell-flag {
-  filter: drop-shadow(0 0 4px #e11d48);
+  filter: drop-shadow(0 0 5px #e11d48);
   opacity: 1;
   transform: scale(1.18);
 }
 
 .cell-flag.summit-trophy {
   font-size: 14px;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
-}
-
-.cell.deployarea {
-  background: linear-gradient(180deg, rgba(238, 242, 255, 0.6) 0%, rgba(224, 231, 255, 0.8) 100%);
-  border-top: 1px dashed #6366f1;
-}
-
-.cell.neutral {
-  background: rgba(255, 255, 255, 0.75);
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
 }
 
 /* Placement Highlights */
