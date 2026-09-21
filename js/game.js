@@ -16,6 +16,7 @@ window.GameSystem = {
     window.PortraitUI?.init();
     this.updateManaUI();
     this.updateTimerUI();
+    this.updateAIButtonUI();
 
     document.getElementById("btn-start")?.classList.remove("hidden");
     document.getElementById("btn-stop")?.classList.add("hidden");
@@ -56,13 +57,15 @@ window.GameSystem = {
       this.updateStatus(window.GameState.isPaused ? "Game Paused." : "Game Resumed.");
     });
 
-    // Optional AI Bot toggle (initially OFF for 2 human players on one screen)
+    // Optional AI Bot toggle
     const aiBtn = document.getElementById("btn-ai");
     aiBtn?.addEventListener("click", () => {
+      if (window.Network && window.Network.isOnline) {
+        this.updateStatus("AI Bot is disabled during online multiplayer.");
+        return;
+      }
       window.GameState.aiEnabled = !window.GameState.aiEnabled;
-      aiBtn.classList.toggle("active", window.GameState.aiEnabled);
-      aiBtn.textContent = window.GameState.aiEnabled ? "🤖 Bot: ON" : "👥 2-Player Local";
-      this.updateStatus(window.GameState.aiEnabled ? "Bot enabled for Player 2." : "2-Player Local mode (Both humans).");
+      this.updateAIButtonUI();
     });
 
     // Online lobby modal button
@@ -178,6 +181,9 @@ window.GameSystem = {
       if (input) input.value = card.cost;
     });
 
+    const gameModeSelect = document.getElementById("cfg-gamemode");
+    if (gameModeSelect) gameModeSelect.value = window.GameState.aiEnabled ? "bot" : "pvp";
+
     modal.classList.add("open");
   },
 
@@ -197,6 +203,15 @@ window.GameSystem = {
 
     const settingsObj = { speedMultiplier, startMana, regenRate, cardCosts };
     window.GameConfig.applySettings(settingsObj, true);
+
+    const gameModeSelect = document.getElementById("cfg-gamemode");
+    if (gameModeSelect) {
+      const wantBot = (gameModeSelect.value === "bot");
+      if (window.GameState.aiEnabled !== wantBot) {
+        window.GameState.aiEnabled = wantBot;
+        this.updateAIButtonUI();
+      }
+    }
 
     // If match hasn't started, update starting mana
     if (window.GameState.matchTimeSec === 0 && window.GameState.units.length === 0) {
@@ -225,11 +240,40 @@ window.GameSystem = {
   resetSettingsDefaults() {
     const defs = window.GameConfig.getDefaultSettings();
     window.GameConfig.applySettings(defs, true);
+    window.GameState.aiEnabled = false;
+    this.updateAIButtonUI();
     this.openSettingsModal(); // Refresh form fields
     this.renderCardsUI();
     this.updateManaUI();
     this.updateCardStyles();
     this.updateStatus("⚙️ Settings restored to defaults.");
+  },
+
+  /**
+   * Sync AI button and opponent badges with GameState.aiEnabled
+   */
+  updateAIButtonUI() {
+    const aiBtn = document.getElementById("btn-ai");
+    const enabled = !!window.GameState.aiEnabled;
+    if (aiBtn) {
+      aiBtn.classList.toggle("active", enabled);
+      aiBtn.textContent = enabled ? "🤖 Bot: ON" : "🤖 Bot: OFF";
+      aiBtn.title = enabled
+        ? "AI Bot is active for Red Team (Click to switch to 2-Player Local)"
+        : "AI Bot is OFF (Click to play vs Computer)";
+    }
+
+    const modeSelect = document.getElementById("cfg-gamemode");
+    if (modeSelect) modeSelect.value = enabled ? "bot" : "pvp";
+
+    // If Bot was enabled and player was viewing P2 deck, switch to P1 deck
+    if (enabled && window.PortraitUI && window.PortraitUI.activePlayer === 2) {
+      window.PortraitUI.setActivePlayer(1);
+    } else if (window.PortraitUI) {
+      window.PortraitUI.updateDeckDisplay();
+    }
+
+    this.updateStatus(enabled ? "🤖 Bot enabled for Player 2 (Red). Play as Blue Team!" : "👥 2-Player Local mode (Both humans on one screen).");
   },
 
   /**
@@ -845,12 +889,16 @@ window.PortraitUI = {
     const oppBadge = document.getElementById("opp-badge");
     if (oppBadge) {
       if (isP1) {
-        oppBadge.textContent = "P2";
+        oppBadge.textContent = window.GameState?.aiEnabled ? "🤖 Bot (P2)" : "P2";
         oppBadge.className = "player-badge p2-badge";
       } else {
         oppBadge.textContent = "P1";
         oppBadge.className = "player-badge p1-badge";
       }
+    }
+
+    if (tabP2) {
+      tabP2.innerHTML = window.GameState?.aiEnabled ? "🤖 Bot (P2)" : "🔴 Red (P2)";
     }
 
     this.updateManaDisplay();

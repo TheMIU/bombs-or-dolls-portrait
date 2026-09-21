@@ -833,6 +833,27 @@ html, body {
   color: #ffffff;
 }
 
+.btn-ai {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+  transition: all 0.15s ease;
+}
+.btn-ai:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+.btn-ai.active {
+  background: #8b5cf6;
+  color: #ffffff;
+  border-color: #7c3aed;
+  box-shadow: 0 0 6px rgba(139, 92, 246, 0.4);
+}
+.btn-ai.active:hover {
+  background: #7c3aed;
+  color: #ffffff;
+}
+
 .btn {
   border: 1px solid #d1d5db;
   background: #ffffff;

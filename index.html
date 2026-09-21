@@ -59,6 +59,7 @@
         <button id="btn-start" class="btn btn-sm btn-start">▶ Start</button>
         <button id="btn-stop" class="btn btn-sm btn-stop hidden">⏹ Stop</button>
         <button id="btn-reset" class="btn btn-sm" title="Reset match">🔄</button>
+        <button id="btn-ai" class="btn btn-sm btn-ai" title="Toggle AI Bot (Play vs Computer)">🤖 Bot: OFF</button>
       </div>
     </div>
   </main>
@@ -110,6 +111,16 @@
     </div>
 
     <div class="settings-body">
+      <!-- Section 0: Game Mode & Opponent -->
+      <div class="settings-section">
+        <label class="settings-label">🎮 Game Mode & Opponent</label>
+        <select id="cfg-gamemode" class="settings-select">
+          <option value="pvp" selected>👥 2-Player Local (Both humans on one screen)</option>
+          <option value="bot">🤖 Play vs Computer (AI Bot controls Red Team)</option>
+        </select>
+        <div class="settings-desc">Choose between local 2-player or playing solo against the computer.</div>
+      </div>
+
       <!-- Section 1: Movement Speed -->
       <div class="settings-section">
         <label class="settings-label">🏃 Overall Climb Speed</label>
